@@ -84,11 +84,8 @@ import java.io.IOException;
 
 SEMI = ";" // Definan aqui sus Tokens/ER por ejemplo: "el token SEMI"
 WHITE = (" "|\t|\n)
-signo   = [+-]
-digitos = [0-9]
-punto = .
-exponente = [eE]
-NUMBER = {digitos}+({punto}?{digitos}*)?({exponente}{signo}?{digitos}+)?
+
+NUMBER = [0-9]+(\.[0-9]+)?([eE][+-]?[0-9]+)?
 
 %%
 
