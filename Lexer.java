@@ -258,22 +258,26 @@ public class Lexer {
 		/* 8 */ YY_NO_ANCHOR,
 		/* 9 */ YY_NO_ANCHOR,
 		/* 10 */ YY_NO_ANCHOR,
-		/* 11 */ YY_NOT_ACCEPT,
+		/* 11 */ YY_NO_ANCHOR,
 		/* 12 */ YY_NO_ANCHOR,
-		/* 13 */ YY_NOT_ACCEPT,
+		/* 13 */ YY_NO_ANCHOR,
 		/* 14 */ YY_NO_ANCHOR,
-		/* 15 */ YY_NOT_ACCEPT
+		/* 15 */ YY_NOT_ACCEPT,
+		/* 16 */ YY_NO_ANCHOR,
+		/* 17 */ YY_NOT_ACCEPT,
+		/* 18 */ YY_NO_ANCHOR,
+		/* 19 */ YY_NOT_ACCEPT
 	};
 	private int yy_cmap[] = unpackFromString(1,130,
-"11:9,2:2,11:21,2,11:4,10,11:4,8,7,11,6,4,9,3:10,11,1,11:9,5,11:31,5,11:26,0" +
-":2")[0];
+"15:9,2:2,15:2,0,15:18,2,15:4,10,15:2,11,12,8,7,15,6,4,9,3:10,15,1,15:9,5,15" +
+":24,14,15:6,5,15:24,13,15,16:2")[0];
 
-	private int yy_rmap[] = unpackFromString(1,16,
-"0,1:3,2,1:6,3,4,5,6:2")[0];
+	private int yy_rmap[] = unpackFromString(1,20,
+"0,1:2,2,1:11,3,4,5,6:2")[0];
 
-	private int yy_nxt[][] = unpackFromString(7,12,
-"1,2,3,4,5:2,6,7,8,9,10,5,-1:15,4,11,13,-1:9,12,-1:11,12,-1,13,-1:9,14,-1:2," +
-"15:2,-1:7,14,-1:8");
+	private int yy_nxt[][] = unpackFromString(7,17,
+"-1,1,2,3,4:2,5,6,7,8,9,10,11,12,13,4,14,-1:20,3,15,17,-1:14,16,-1:16,16,-1," +
+"17,-1:14,18,-1:2,19:2,-1:12,18,-1:13");
 
 	public Token nextToken ()
 		throws java.io.IOException {
@@ -320,52 +324,69 @@ public class Lexer {
 					yy_to_mark();
 					switch (yy_last_accept_state) {
 					case 1:
-						
+						{ return new Token(Token.SEMI);   }
 					case -2:
 						break;
 					case 2:
-						{ return new Token(Token.SEMI);   }
+						{ /* NO HACER NADA */             }
 					case -3:
 						break;
 					case 3:
-						{ /* NO HACER NADA */             }
+						{ return new Token(Token.NUMBER, yytext()); }
 					case -4:
 						break;
 					case 4:
-						{ return new Token(Token.NUMBER, yytext()); }
+						{ return new Token(Token.ERROR);
+                      /* todo lo demas es ERROR */ }
 					case -5:
 						break;
 					case 5:
-						{ return new Token(Token.EXP);    }
+						{ return new Token(Token.MINUS);  }
 					case -6:
 						break;
 					case 6:
-						{ return new Token(Token.MINUS);  }
+						{ return new Token(Token.PLUS);   }
 					case -7:
 						break;
 					case 7:
-						{ return new Token(Token.PLUS);   }
+						{ return new Token(Token.MULT);   }
 					case -8:
 						break;
 					case 8:
-						{ return new Token(Token.MULT);   }
+						{ return new Token(Token.DIV);    }
 					case -9:
 						break;
 					case 9:
-						{ return new Token(Token.DIV);    }
+						{ return new Token(Token.MOD);    }
 					case -10:
 						break;
 					case 10:
-						{ return new Token(Token.MOD);    }
+						{ return new Token(Token.LPAREN); }
 					case -11:
 						break;
-					case 12:
-						{ return new Token(Token.NUMBER, yytext()); }
+					case 11:
+						{ return new Token(Token.RPAREN); }
 					case -12:
 						break;
-					case 14:
-						{ return new Token(Token.NUMBER, yytext()); }
+					case 12:
+						{ return new Token(Token.UNARY);  }
 					case -13:
+						break;
+					case 13:
+						{ return new Token(Token.EXP);    }
+					case -14:
+						break;
+					case 14:
+						
+					case -15:
+						break;
+					case 16:
+						{ return new Token(Token.NUMBER, yytext()); }
+					case -16:
+						break;
+					case 18:
+						{ return new Token(Token.NUMBER, yytext()); }
+					case -17:
 						break;
 					default:
 						yy_error(YY_E_INTERNAL,false);
