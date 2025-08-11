@@ -129,13 +129,101 @@ public class Parser {
 
     }
 
+    /* Rewritten RDP Grammar that eliminates left-recursion
+    S -> E ;
+    E -> T Ep
+    Ep -> + T Ep | - T Ep | ε
+    T -> F Tp
+    Tp -> * F Tp | / F Tp | % F Tp | ε
+    F -> P Fp
+    Fp -> ^ Fp | ε
+    P -> ( E ) | number | ~number
+    */
+
     private boolean S() {
         return E() && term(Token.SEMI);
     }
 
     private boolean E() {
-        return false;
+        int save = this.next;
+        return T() && Ep();
+    }
+    /* TODO: sus otras funciones aqui */
+
+    private boolean Ep1(){
+        return term(Token.PLUS) && T() && Ep();
+    }
+    private boolean Ep2(){
+        return term(Token.MINUS) && T() && Ep();
+    }
+    private boolean Ep() {
+        int save = this.next;
+        if(Ep1()) {return true;}
+        this.next = save;
+        if(Ep2()) {return true;}
+        this.next = save;
+        // epsilon production
+        return true;
     }
 
-    /* TODO: sus otras funciones aqui */
+    private boolean T() {
+        int save = this.next;
+        return F() && Tp();
+    }
+    private boolean Tp1(){
+        return term(Token.MULT) && F() && Tp();
+    }
+    private boolean Tp2(){
+        return term(Token.DIV) && F() && Tp();
+    }
+    private boolean Tp3(){
+        return term(Token.MOD) && F() && Tp();
+    }
+    private boolean Tp() {
+        int save = this.next;
+        if(Tp1()) {return true;}
+        this.next = save;
+        if(Tp2()) {return true;}
+        this.next = save;
+        if(Tp3()) {return true;}
+        this.next = save;
+        // epsilon production
+        return true;
+    }
+
+    private boolean F() {
+        int save = this.next;
+        return P() && Fp();
+    }
+
+    private boolean Fp1(){
+        return term(Token.EXP) && F() && Fp();
+    }
+
+    private boolean Fp() {
+        int save = this.next;
+        if(Fp1()) {return true;}
+        this.next = save;
+        // epsilon production
+        return true;
+    }
+
+    private boolean P1() {
+        return term(Token.LPAREN) && E() && term(Token.RPAREN);
+    }
+    private boolean P2() {
+        return term(Token.NUMBER);
+    }
+    private boolean P3() {
+        return term(Token.UNARY) && term(Token.NUMBER);
+    }
+    private boolean P() {
+        int save = this.next;
+        if(P1()) {return true;}
+        this.next = save;
+        if(P2()) {return true;}
+        this.next = save;
+        if(P3()) {return true;}
+        return false;
+    }
 }
